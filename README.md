@@ -103,14 +103,14 @@ npm run dev
 npm start
 ```
 
-##  Docker 部署
+## 🐳 Docker 部署
 
 ```bash
 # 配置 .env 文件后
-docker-compose up -d
+docker compose up -d
 
 # 查看日志
-docker-compose logs -f
+docker compose logs -f
 ```
 
 ##  使用说明
