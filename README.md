@@ -1,4 +1,4 @@
-﻿# Telegram 消息转发机器人
+# Telegram 消息转发机器人
 
 具有图片验证码和用户管理功能的 Telegram 消息转发机器人。
 
@@ -12,27 +12,7 @@
 - 🤖 GitHub Actions 自动构建镜像
 
 ## 🚀 快速开始
-
-### 方法一：使用 GitHub 镜像（推荐）
-
-```bash
-# 1. 拉取镜像
-docker pull ghcr.io/ham0mer/tgbot:latest
-
-# 2. 运行
-docker run -d \
-  --name telegram-bot \
-  -e BOT_TOKEN="你的Bot_Token" \
-  -e OWNER_ID="你的用户ID" \
-  -e SUPABASE_URL="你的Supabase_URL" \
-  -e SUPABASE_KEY="你的Supabase_Key" \
-  ghcr.io/ham0mer/tgbot:latest
-```
-
-> 📖 详细说明请查看 [DOCKER_BUILD.md](./DOCKER_BUILD.md)
-
-### 方法二：本地构建
-
+先配置数据库
 ### 1. 配置 Supabase 数据库
 
 在 [Supabase](https://supabase.com) 创建项目，然后在 SQL Editor 中执行：
@@ -79,7 +59,27 @@ CREATE INDEX idx_pending_verifications_user_id ON pending_verifications(user_id)
 CREATE INDEX idx_blocked_users_user_id ON blocked_users(user_id);
 ```
 
-### 2. 配置环境变量
+### 方法一：使用 GitHub 镜像（推荐）
+
+```bash
+# 1. 拉取镜像
+docker pull ghcr.io/ham0mer/tgbot:latest
+
+# 2. 运行
+docker run -d \
+  --name telegram-bot \
+  -e BOT_TOKEN="你的Bot_Token" \
+  -e OWNER_ID="你的用户ID" \
+  -e SUPABASE_URL="你的Supabase_URL" \
+  -e SUPABASE_KEY="你的Supabase_Key" \
+  ghcr.io/ham0mer/tgbot:latest
+```
+
+> 📖 详细说明请查看 [DOCKER_BUILD.md](./DOCKER_BUILD.md)
+
+### 方法二：本地构建
+
+### 1. 配置环境变量
 
 编辑 `.env` 文件：
 
@@ -90,7 +90,7 @@ SUPABASE_URL=你的Supabase_URL        # 从 Supabase Dashboard 获取
 SUPABASE_KEY=你的Supabase_Key        # 从 Supabase Dashboard 获取
 ```
 
-### 3. 启动机器人
+### 2. 启动机器人
 
 ```bash
 # 安装依赖
