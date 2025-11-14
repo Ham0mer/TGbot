@@ -1,3 +1,11 @@
+<div align="center">
+
+![Telegram Bot](https://img.shields.io/badge/Telegram-Bot-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)
+![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
+![GitHub Stars](https://img.shields.io/github/stars/Ham0mer/TGbot?style=for-the-badge&logo=github&color=yellow)
+
+</div>
+
 # Telegram 消息转发机器人
 
 具有图片验证码和用户管理功能的 Telegram 消息转发机器人。
@@ -9,6 +17,57 @@
 - 🚫 用户拉黑/解除拉黑（`/block` 和 `/unblock` 命令）
 - ☁️ Supabase 云数据库（数据永不丢失）
 - 🐳 Docker 支持
+
+## 🔄 完整功能流程
+```mermaid
+graph TB
+    A[👤 用户] -->|发送消息/图片| B{🔐 验证状态?}
+    B -->|未验证| C[发送验证码]
+    C -->|用户输入| D{验证结果?}
+    D -->|成功| E[✅ 保存到已验证]
+    D -->|失败3次| F[🚫 自动拉黑]
+    D -->|失败<3次| C
+    
+    B -->|已验证| G[📤 转发给主人]
+    G -->|保存映射| H[(Supabase数据库)]
+    
+    I[👨‍💼 主人] -->|查看消息| G
+    I -->|回复消息| J[🔍 查找映射]
+    J -->|从数据库获取| H
+    J -->|发送回复| A
+    
+    I -->|/start 命令| K[📊 显示统计]
+    K -->|查询数据| H
+    
+    I -->|/block 命令| L{拉黑方式?}
+    L -->|回复消息| M[通过映射拉黑]
+    L -->|指定ID| N[直接拉黑]
+    M --> H
+    N --> H
+    
+    I -->|/unblock 命令| O{解除方式?}
+    O -->|回复消息| P[通过映射解除]
+    O -->|指定ID| Q[直接解除]
+    P --> H
+    Q --> H
+    
+    H -->|5张表| R[message_mappings<br/>verified_users<br/>pending_verifications<br/>blocked_users<br/>failed_verifications]
+    
+    S[⏰ 定时任务] -->|每小时| T[清理过期验证码]
+    T --> H
+    
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#fce4ec
+    style E fill:#e8f5e8
+    style F fill:#ffebee
+    style G fill:#f3e5f5
+    style H fill:#fff3e0
+    style I fill:#e8f5e8
+    style K fill:#e0f2f1
+    style R fill:#ffeaa7
+```
+
 
 ## 🚀 快速开始
 先配置数据库
